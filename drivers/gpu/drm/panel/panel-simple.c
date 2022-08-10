@@ -3792,14 +3792,14 @@ static const struct panel_desc qishenglong_gopher2b_lcd = {
 
 static const struct drm_display_mode raspberrypi_7inch_mode = {
 	.clock = 25979400 / 1000,
-	.hdisplay = 1024,
-	.hsync_start = 1024 + 2,
-	.hsync_end = 1024 + 2 + 2,
-	.htotal = 1024 + 2 + 2 + 46,
-	.vdisplay = 600,
-	.vsync_start = 600 + 7,
-	.vsync_end = 600 + 7 + 2,
-	.vtotal = 600 + 7 + 2 + 21,
+	.hdisplay = 800,
+	.hsync_start = 800 + 2,
+	.hsync_end = 800 + 2 + 2,
+	.htotal = 800 + 2 + 2 + 46,
+	.vdisplay = 480,
+	.vsync_start = 480 + 7,
+	.vsync_end = 480 + 7 + 2,
+	.vtotal = 480 + 7 + 2 + 21,
 	.flags = DRM_MODE_FLAG_NVSYNC | DRM_MODE_FLAG_NHSYNC,
 };
 

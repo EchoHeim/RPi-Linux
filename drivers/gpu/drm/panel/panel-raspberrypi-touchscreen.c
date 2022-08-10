@@ -82,112 +82,112 @@ enum REG_ADDR {
 };
 
 /* DSI D-PHY Layer Registers */
-#define D0W_DPHYCONTTX		0x0004
-#define CLW_DPHYCONTRX		0x0020
-#define D0W_DPHYCONTRX		0x0024
-#define D1W_DPHYCONTRX		0x0028
-#define COM_DPHYCONTRX		0x0038
-#define CLW_CNTRL		0x0040
-#define D0W_CNTRL		0x0044
-#define D1W_CNTRL		0x0048
-#define DFTMODE_CNTRL		0x0054
+#define D0W_DPHYCONTTX 0x0004
+#define CLW_DPHYCONTRX 0x0020
+#define D0W_DPHYCONTRX 0x0024
+#define D1W_DPHYCONTRX 0x0028
+#define COM_DPHYCONTRX 0x0038
+#define CLW_CNTRL 0x0040
+#define D0W_CNTRL 0x0044
+#define D1W_CNTRL 0x0048
+#define DFTMODE_CNTRL 0x0054
 
 /* DSI PPI Layer Registers */
-#define PPI_STARTPPI		0x0104
-#define PPI_BUSYPPI		0x0108
-#define PPI_LINEINITCNT		0x0110
-#define PPI_LPTXTIMECNT		0x0114
-#define PPI_CLS_ATMR		0x0140
-#define PPI_D0S_ATMR		0x0144
-#define PPI_D1S_ATMR		0x0148
-#define PPI_D0S_CLRSIPOCOUNT	0x0164
-#define PPI_D1S_CLRSIPOCOUNT	0x0168
-#define CLS_PRE			0x0180
-#define D0S_PRE			0x0184
-#define D1S_PRE			0x0188
-#define CLS_PREP		0x01A0
-#define D0S_PREP		0x01A4
-#define D1S_PREP		0x01A8
-#define CLS_ZERO		0x01C0
-#define D0S_ZERO		0x01C4
-#define D1S_ZERO		0x01C8
-#define PPI_CLRFLG		0x01E0
-#define PPI_CLRSIPO		0x01E4
-#define HSTIMEOUT		0x01F0
-#define HSTIMEOUTENABLE		0x01F4
+#define PPI_STARTPPI 0x0104
+#define PPI_BUSYPPI 0x0108
+#define PPI_LINEINITCNT 0x0110
+#define PPI_LPTXTIMECNT 0x0114
+#define PPI_CLS_ATMR 0x0140
+#define PPI_D0S_ATMR 0x0144
+#define PPI_D1S_ATMR 0x0148
+#define PPI_D0S_CLRSIPOCOUNT 0x0164
+#define PPI_D1S_CLRSIPOCOUNT 0x0168
+#define CLS_PRE 0x0180
+#define D0S_PRE 0x0184
+#define D1S_PRE 0x0188
+#define CLS_PREP 0x01A0
+#define D0S_PREP 0x01A4
+#define D1S_PREP 0x01A8
+#define CLS_ZERO 0x01C0
+#define D0S_ZERO 0x01C4
+#define D1S_ZERO 0x01C8
+#define PPI_CLRFLG 0x01E0
+#define PPI_CLRSIPO 0x01E4
+#define HSTIMEOUT 0x01F0
+#define HSTIMEOUTENABLE 0x01F4
 
 /* DSI Protocol Layer Registers */
-#define DSI_STARTDSI		0x0204
-#define DSI_BUSYDSI		0x0208
-#define DSI_LANEENABLE		0x0210
-# define DSI_LANEENABLE_CLOCK		BIT(0)
-# define DSI_LANEENABLE_D0		BIT(1)
-# define DSI_LANEENABLE_D1		BIT(2)
+#define DSI_STARTDSI 0x0204
+#define DSI_BUSYDSI 0x0208
+#define DSI_LANEENABLE 0x0210
+#define DSI_LANEENABLE_CLOCK BIT(0)
+#define DSI_LANEENABLE_D0 BIT(1)
+#define DSI_LANEENABLE_D1 BIT(2)
 
-#define DSI_LANESTATUS0		0x0214
-#define DSI_LANESTATUS1		0x0218
-#define DSI_INTSTATUS		0x0220
-#define DSI_INTMASK		0x0224
-#define DSI_INTCLR		0x0228
-#define DSI_LPTXTO		0x0230
-#define DSI_MODE		0x0260
-#define DSI_PAYLOAD0		0x0268
-#define DSI_PAYLOAD1		0x026C
-#define DSI_SHORTPKTDAT		0x0270
-#define DSI_SHORTPKTREQ		0x0274
-#define DSI_BTASTA		0x0278
-#define DSI_BTACLR		0x027C
+#define DSI_LANESTATUS0 0x0214
+#define DSI_LANESTATUS1 0x0218
+#define DSI_INTSTATUS 0x0220
+#define DSI_INTMASK 0x0224
+#define DSI_INTCLR 0x0228
+#define DSI_LPTXTO 0x0230
+#define DSI_MODE 0x0260
+#define DSI_PAYLOAD0 0x0268
+#define DSI_PAYLOAD1 0x026C
+#define DSI_SHORTPKTDAT 0x0270
+#define DSI_SHORTPKTREQ 0x0274
+#define DSI_BTASTA 0x0278
+#define DSI_BTACLR 0x027C
 
 /* DSI General Registers */
-#define DSIERRCNT		0x0300
-#define DSISIGMOD		0x0304
+#define DSIERRCNT 0x0300
+#define DSISIGMOD 0x0304
 
 /* DSI Application Layer Registers */
-#define APLCTRL			0x0400
-#define APLSTAT			0x0404
-#define APLERR			0x0408
-#define PWRMOD			0x040C
-#define RDPKTLN			0x0410
-#define PXLFMT			0x0414
-#define MEMWRCMD		0x0418
+#define APLCTRL 0x0400
+#define APLSTAT 0x0404
+#define APLERR 0x0408
+#define PWRMOD 0x040C
+#define RDPKTLN 0x0410
+#define PXLFMT 0x0414
+#define MEMWRCMD 0x0418
 
 /* LCDC/DPI Host Registers */
-#define LCDCTRL			0x0420
-#define HSR			0x0424
-#define HDISPR			0x0428
-#define VSR			0x042C
-#define VDISPR			0x0430
-#define VFUEN			0x0434
+#define LCDCTRL 0x0420
+#define HSR 0x0424
+#define HDISPR 0x0428
+#define VSR 0x042C
+#define VDISPR 0x0430
+#define VFUEN 0x0434
 
 /* DBI-B Host Registers */
-#define DBIBCTRL		0x0440
+#define DBIBCTRL 0x0440
 
 /* SPI Master Registers */
-#define SPICMR			0x0450
-#define SPITCR			0x0454
+#define SPICMR 0x0450
+#define SPITCR 0x0454
 
 /* System Controller Registers */
-#define SYSSTAT			0x0460
-#define SYSCTRL			0x0464
-#define SYSPLL1			0x0468
-#define SYSPLL2			0x046C
-#define SYSPLL3			0x0470
-#define SYSPMCTRL		0x047C
+#define SYSSTAT 0x0460
+#define SYSCTRL 0x0464
+#define SYSPLL1 0x0468
+#define SYSPLL2 0x046C
+#define SYSPLL3 0x0470
+#define SYSPMCTRL 0x047C
 
 /* GPIO Registers */
-#define GPIOC			0x0480
-#define GPIOO			0x0484
-#define GPIOI			0x0488
+#define GPIOC 0x0480
+#define GPIOO 0x0484
+#define GPIOI 0x0488
 
 /* I2C Registers */
-#define I2CCLKCTRL		0x0490
+#define I2CCLKCTRL 0x0490
 
 /* Chip/Rev Registers */
-#define IDREG			0x04A0
+#define IDREG 0x04A0
 
 /* Debug Registers */
-#define WCMDQUEUE		0x0500
-#define RCMDQUEUE		0x0504
+#define WCMDQUEUE 0x0500
+#define RCMDQUEUE 0x0504
 
 struct rpi_touchscreen {
 	struct drm_panel base;
@@ -222,7 +222,9 @@ static int rpi_touchscreen_i2c_read(struct rpi_touchscreen *ts, u8 reg)
 	struct i2c_client *client = ts->i2c;
 	struct i2c_msg msgs[1];
 	u8 addr_buf[1] = { reg };
-	u8 data_buf[1] = { 0, };
+	u8 data_buf[1] = {
+		0,
+	};
 	int ret;
 
 	/* Write register address */
@@ -250,8 +252,8 @@ static int rpi_touchscreen_i2c_read(struct rpi_touchscreen *ts, u8 reg)
 	return data_buf[0];
 }
 
-static void rpi_touchscreen_i2c_write(struct rpi_touchscreen *ts,
-				      u8 reg, u8 val)
+static void rpi_touchscreen_i2c_write(struct rpi_touchscreen *ts, u8 reg,
+				      u8 val)
 {
 	int ret;
 
@@ -263,12 +265,7 @@ static void rpi_touchscreen_i2c_write(struct rpi_touchscreen *ts,
 static int rpi_touchscreen_write(struct rpi_touchscreen *ts, u16 reg, u32 val)
 {
 	u8 msg[] = {
-		reg,
-		reg >> 8,
-		val,
-		val >> 8,
-		val >> 16,
-		val >> 24,
+		reg, reg >> 8, val, val >> 8, val >> 16, val >> 24,
 	};
 
 	mipi_dsi_generic_write(ts->dsi, msg, sizeof(msg));
@@ -308,8 +305,7 @@ static int rpi_touchscreen_prepare(struct drm_panel *panel)
 	}
 
 	rpi_touchscreen_write(ts, DSI_LANEENABLE,
-			      DSI_LANEENABLE_CLOCK |
-			      DSI_LANEENABLE_D0);
+			      DSI_LANEENABLE_CLOCK | DSI_LANEENABLE_D0);
 	rpi_touchscreen_write(ts, PPI_D0S_CLRSIPOCOUNT, 0x05);
 	rpi_touchscreen_write(ts, PPI_D1S_CLRSIPOCOUNT, 0x05);
 	rpi_touchscreen_write(ts, PPI_D0S_ATMR, 0x00);
@@ -358,8 +354,7 @@ static int rpi_touchscreen_get_modes(struct drm_panel *panel,
 		mode = drm_mode_duplicate(connector->dev, m);
 		if (!mode) {
 			dev_err(panel->dev, "failed to add mode %ux%u@%u\n",
-				m->hdisplay, m->vdisplay,
-				drm_mode_vrefresh(m));
+				m->hdisplay, m->vdisplay, drm_mode_vrefresh(m));
 			continue;
 		}
 
@@ -377,8 +372,8 @@ static int rpi_touchscreen_get_modes(struct drm_panel *panel,
 	connector->display_info.bpc = 8;
 	connector->display_info.width_mm = 154;
 	connector->display_info.height_mm = 86;
-	drm_display_info_set_bus_formats(&connector->display_info,
-					 &bus_format, 1);
+	drm_display_info_set_bus_formats(&connector->display_info, &bus_format,
+					 1);
 
 	return num;
 }
@@ -493,8 +488,7 @@ static int rpi_touchscreen_dsi_probe(struct mipi_dsi_device *dsi)
 	int ret;
 
 	dsi->mode_flags = (MIPI_DSI_MODE_VIDEO |
-			   MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
-			   MIPI_DSI_MODE_LPM);
+			   MIPI_DSI_MODE_VIDEO_SYNC_PULSE | MIPI_DSI_MODE_LPM);
 	dsi->format = MIPI_DSI_FMT_RGB888;
 	dsi->lanes = 1;
 
@@ -513,7 +507,7 @@ static struct mipi_dsi_driver rpi_touchscreen_dsi_driver = {
 
 static const struct of_device_id rpi_touchscreen_of_ids[] = {
 	{ .compatible = "raspberrypi,7inch-touchscreen-panel" },
-	{ } /* sentinel */
+	{} /* sentinel */
 };
 MODULE_DEVICE_TABLE(of, rpi_touchscreen_of_ids);
 

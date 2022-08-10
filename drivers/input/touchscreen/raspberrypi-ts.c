@@ -19,17 +19,17 @@
 #include <linux/input/touchscreen.h>
 #include <soc/bcm2835/raspberrypi-firmware.h>
 
-#define RPI_TS_DEFAULT_WIDTH	800
-#define RPI_TS_DEFAULT_HEIGHT	480
+#define RPI_TS_DEFAULT_WIDTH 800
+#define RPI_TS_DEFAULT_HEIGHT 480
 
-#define RPI_TS_MAX_SUPPORTED_POINTS	10
+#define RPI_TS_MAX_SUPPORTED_POINTS 10
 
-#define RPI_TS_FTS_TOUCH_DOWN		0
-#define RPI_TS_FTS_TOUCH_CONTACT	2
+#define RPI_TS_FTS_TOUCH_DOWN 0
+#define RPI_TS_FTS_TOUCH_CONTACT 2
 
-#define RPI_TS_POLL_INTERVAL		17	/* 60fps */
+#define RPI_TS_POLL_INTERVAL 17 /* 60fps */
 
-#define RPI_TS_NPOINTS_REG_INVALIDATE	99
+#define RPI_TS_NPOINTS_REG_INVALIDATE 99
 
 struct rpi_ts {
 	struct platform_device *pdev;
@@ -52,7 +52,7 @@ struct rpi_ts_regs {
 		u8 yh;
 		u8 yl;
 		u8 pressure; /* Not supported */
-		u8 area;     /* Not supported */
+		u8 area; /* Not supported */
 	} point[RPI_TS_MAX_SUPPORTED_POINTS];
 };
 
@@ -98,7 +98,7 @@ static void rpi_ts_poll(struct input_dev *input)
 	}
 
 	released_ids = ts->known_ids & ~modified_ids;
-	for_each_set_bit(i, &released_ids, RPI_TS_MAX_SUPPORTED_POINTS) {
+	for_each_set_bit (i, &released_ids, RPI_TS_MAX_SUPPORTED_POINTS) {
 		input_mt_slot(input, i);
 		input_mt_report_slot_inactive(input);
 		modified_ids &= ~(BIT(i));
@@ -178,10 +178,10 @@ static int rpi_ts_probe(struct platform_device *pdev)
 	input->name = "raspberrypi-ts";
 	input->id.bustype = BUS_HOST;
 
-	input_set_abs_params(input, ABS_MT_POSITION_X, 0,
-			     RPI_TS_DEFAULT_WIDTH, 0, 0);
-	input_set_abs_params(input, ABS_MT_POSITION_Y, 0,
-			     RPI_TS_DEFAULT_HEIGHT, 0, 0);
+	input_set_abs_params(input, ABS_MT_POSITION_X, 0, RPI_TS_DEFAULT_WIDTH,
+			     0, 0);
+	input_set_abs_params(input, ABS_MT_POSITION_Y, 0, RPI_TS_DEFAULT_HEIGHT,
+			     0, 0);
 	touchscreen_parse_properties(input, true, &ts->prop);
 
 	error = input_mt_init_slots(input, RPI_TS_MAX_SUPPORTED_POINTS,
@@ -209,7 +209,9 @@ static int rpi_ts_probe(struct platform_device *pdev)
 }
 
 static const struct of_device_id rpi_ts_match[] = {
-	{ .compatible = "raspberrypi,firmware-ts", },
+	{
+		.compatible = "raspberrypi,firmware-ts",
+	},
 	{},
 };
 MODULE_DEVICE_TABLE(of, rpi_ts_match);
