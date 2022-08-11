@@ -70,7 +70,7 @@
 #define EDT_RAW_DATA_DELAY 1000 /* usec */
 
 #define EDT_DEFAULT_NUM_X 1024
-#define EDT_DEFAULT_NUM_Y 1024
+#define EDT_DEFAULT_NUM_Y 600
 
 #define POLL_INTERVAL_MS 17 /* 17ms = 60fps */
 
@@ -198,7 +198,8 @@ static irqreturn_t edt_ft5x06_ts_isr(int irq, void *dev_id)
 	struct device *dev = &tsdata->client->dev;
 	u8 cmd;
 	u8 rdbuf[63];
-	int i, type, x, y, id;
+	int i, type, id;
+	unsigned int x, y;
 	int offset, tplen, datalen, crclen;
 	int error;
 	unsigned int active_ids = 0, known_ids = tsdata->known_ids;
@@ -273,6 +274,18 @@ static irqreturn_t edt_ft5x06_ts_isr(int irq, void *dev_id)
 
 		x = get_unaligned_be16(buf) & 0x0fff;
 		y = get_unaligned_be16(buf + 2) & 0x0fff;
+		// x = (get_unaligned_be16(buf) & 0x0fff) + 224;
+		// y = (get_unaligned_be16(buf + 2) & 0x0fff) + 120;
+		// if (x > 800)
+		// 	x = x - 0x1000;
+		// if (y > 480)
+		// 	y = y - 0x1000;
+
+		// if (x > 0x1000)
+		// 	x = x + 0x1000;
+		// if (y > 0x1000)
+		// 	y = y + 0x1000;
+
 		/* The FT5x26 send the y coordinate first */
 		if (tsdata->version == EV_FT)
 			swap(x, y);
@@ -1254,10 +1267,16 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client,
 	input->id.bustype = BUS_I2C;
 	input->dev.parent = &client->dev;
 
-	input_set_abs_params(input, ABS_MT_POSITION_X, 0,
-			     tsdata->num_x * 64 - 1, 0, 0);
-	input_set_abs_params(input, ABS_MT_POSITION_Y, 0,
-			     tsdata->num_y * 64 - 1, 0, 0);
+	dev_err(&client->dev, "Model \"%s\", Rev. \"%s\", %dx%d sensors\n",
+		tsdata->name, fw_version, tsdata->num_x, tsdata->num_y);
+
+	// input_set_abs_params(input, ABS_MT_POSITION_X, 0,
+	// 		     tsdata->num_x * 64 - 1, 0, 0);
+	// input_set_abs_params(input, ABS_MT_POSITION_Y, 0,
+	// 		     tsdata->num_y * 64 - 1, 0, 0);
+
+	input_set_abs_params(input, ABS_MT_POSITION_X, 0, tsdata->num_x, 0, 0);
+	input_set_abs_params(input, ABS_MT_POSITION_Y, 0, tsdata->num_y, 0, 0);
 
 	touchscreen_parse_properties(input, true, &tsdata->prop);
 
@@ -1271,6 +1290,9 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client,
 	i2c_set_clientdata(client, tsdata);
 
 	if (client->irq) {
+		dev_err(&client->dev, "irq , %dx%d sensors\n", tsdata->num_x,
+			tsdata->num_y);
+
 		irq_flags = irq_get_trigger_type(client->irq);
 		if (irq_flags == IRQF_TRIGGER_NONE)
 			irq_flags = IRQF_TRIGGER_FALLING;
@@ -1286,6 +1308,9 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client,
 			return error;
 		}
 	} else {
+		dev_err(&client->dev, "poll , %dx%d sensors\n", tsdata->num_x,
+			tsdata->num_y);
+
 		INIT_WORK(&tsdata->work_i2c_poll, edt_ft5x06_ts_work_i2c_poll);
 		timer_setup(&tsdata->timer, edt_ft5x06_ts_irq_poll_timer, 0);
 		tsdata->timer.expires =

@@ -3815,6 +3815,31 @@ static const struct panel_desc raspberrypi_7inch = {
 	.connector_type = DRM_MODE_CONNECTOR_DSI,
 };
 
+static const struct drm_display_mode biqu_7inch_mode = {
+	.clock = 25979400 / 1000,
+	.hdisplay = 1024,
+	.hsync_start = 1024 + 2,
+	.hsync_end = 1024 + 2 + 2,
+	.htotal = 1024 + 2 + 2 + 46,
+	.vdisplay = 600,
+	.vsync_start = 600 + 7,
+	.vsync_end = 600 + 7 + 2,
+	.vtotal = 600 + 7 + 2 + 21,
+	.flags = DRM_MODE_FLAG_NVSYNC | DRM_MODE_FLAG_NHSYNC,
+};
+
+static const struct panel_desc biqu_7inch = {
+	.modes = &biqu_7inch_mode,
+	.num_modes = 1,
+	.bpc = 8,
+	.size = {
+		.width = 154,
+		.height = 86,
+	},
+	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
+	.connector_type = DRM_MODE_CONNECTOR_DSI,
+};
+
 static const struct display_timing rocktech_rk070er9427_timing = {
 	.pixelclock = { 26400000, 33300000, 46800000 },
 	.hactive = { 800, 800, 800 },
@@ -4997,7 +5022,8 @@ static const struct of_device_id platform_of_match[] = {
 	},
 	{
 		.compatible = "raspberrypi,7inch-dsi",
-		.data = &raspberrypi_7inch,
+		// .data = &raspberrypi_7inch,
+		.data = &biqu_7inch,
 	},
 	{
 		.compatible = "rocktech,rk070er9427",
