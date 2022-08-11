@@ -11,12 +11,12 @@
 4. 下载驱动
 
     ``` bash
-    git clone --depth=1 https://github.com/EchoHeim/RPi-7inch-DSI.git
+    git clone --depth=1 -b RPi-7inch-DSI https://github.com/EchoHeim/RPi-Linux.git
     ```
 5. 安装驱动
 
     ``` bash
-    cd RPi-7inch-DSI
+    cd RPi-Linux
     sudo ./install.sh
     ```
 
