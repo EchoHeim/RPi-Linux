@@ -13,6 +13,7 @@
     ``` bash
     git clone --depth=1 -b RPi-7inch-DSI https://github.com/EchoHeim/RPi-Linux.git
     ```
+    
 5. 安装驱动
 
     ``` bash

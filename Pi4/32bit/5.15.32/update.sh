@@ -1,0 +1,30 @@
+#!/bin/bash
+
+echo -e "\nInfo: RaspBerryPi-4, kernel 5.15.32, 32-bit OS.\n"
+
+path_dts=/boot/overlays
+path_touch=/lib/modules/$(uname -r)/kernel/drivers/input/touchscreen
+path_dis=/lib/modules/$(uname -r)/kernel/drivers/gpu/drm/panel
+
+echo -e "Copy files...\n"
+sudo rm $path_dts/vc4-kms-dsi-7inch.dtbo
+sudo rm $path_dts/edt-ft5406.dtbo
+sudo cp vc4-kms-dsi-7inch.dtbo $path_dts -frv
+sudo cp edt-ft5406.dtbo $path_dts -frv
+
+sudo rm edt-ft5x06.ko
+sudo cp edt-ft5x06.ko $path_touch -frv
+
+sudo rm panel-simple.ko
+sudo cp panel-simple.ko $path_dis -frv
+
+sync
+
+echo -e "Install modules...\n"
+sudo depmod
+sudo modprobe -r panel_simple
+sudo modprobe -r edt_ft5x06
+sudo modprobe panel_simple
+sudo modprobe edt_ft5x06
+
+sync
