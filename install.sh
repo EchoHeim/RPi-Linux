@@ -4,7 +4,7 @@ WORK_PATH="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 function Env_init()
 {
-	ios_bit=$(getconf LONG_BIT)bit
+	os_bit=$(getconf LONG_BIT)bit
     modules_path=$(uname -r)
     kernel_ver=${modules_path%-*}
 
@@ -54,4 +54,4 @@ fi
 
 unset WORK_PATH
 
-# sudo reboot
+sudo reboot
