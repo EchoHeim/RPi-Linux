@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-2.0-only
-// Definitions for IMX290 camera module on VC I2C bus
+// Definitions for IMX462 camera module on VC I2C bus
 /dts-v1/;
 /plugin/;
 
@@ -15,14 +15,14 @@
 	fragment@101 {
 		target = <&cam_node>;
 		__overlay__ {
-			compatible = "sony,imx290";
+			compatible = "sony,imx462";
 		};
 	};
 
 	fragment@102 {
 		target = <&cam_node>;
 		__dormant__ {
-			compatible = "sony,imx290-mono";
+			compatible = "sony,imx462-mono";
 		};
 	};
 
