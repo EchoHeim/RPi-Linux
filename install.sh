@@ -16,7 +16,7 @@ function Env_init()
     case "$pi_type" in
         1) pi_type=Pi3 ;;
         2) pi_type=Pi4 ;;
-        *) echo "Selection error!"
+        *) echo -e "\n Selection error!\n"
         exit 1 ;;
     esac
 }
@@ -57,7 +57,7 @@ if [ $# == 0 ]; then
     [ $? != 0 ] && NoSupport && exit 1
     ./update.sh
 else
-    echo -e "\n Invalid parameters!"
+    echo -e "\n Invalid parameters!\n"
     exit 0
 fi
 
