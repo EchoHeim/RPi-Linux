@@ -31,8 +31,8 @@
 				compatible = "edt,edt-ft5506";
 				reg = <0x38>;
 
-				touchscreen-size-x = < 800 >;
-				touchscreen-size-y = < 480 >;
+				touchscreen-size-x = < 1024 >;
+				touchscreen-size-y = < 600 >;
 			};
 		};
 	};
