@@ -789,6 +789,12 @@ Load:   dtoverlay=cutiepi-panel
 Params: <None>
 
 
+Name:   dacberry400
+Info:   Configures the dacberry400 add on soundcard
+Load:   dtoverlay=dacberry400
+Params: <None>
+
+
 Name:   dht11
 Info:   Overlay for the DHT11/DHT21/DHT22 humidity/temperature sensors
         Also sometimes found with the part number(s) AM230x.
@@ -1168,6 +1174,9 @@ Load:   dtoverlay=gpio-fan,<param>=<val>
 Params: gpiopin                 GPIO used to control the fan (default 12)
         temp                    Temperature at which the fan switches on, in
                                 millicelcius (default 55000)
+        hyst                    Temperature delta (in millicelcius) below
+                                temp at which the fan will drop to minrpm
+                                (default 10000)
 
 
 Name:   gpio-hog
