@@ -50,7 +50,6 @@ enum imx290_clk_index {
 #define IMX290_VMAX_MAX 0x3fff
 #define IMX290_HMAX_LOW 0x301c
 #define IMX290_HMAX_HIGH 0x301d
-#define IMX290_HMAX_MIN 2200 /* Min of 2200 pixels = 60fps */
 #define IMX290_HMAX_MAX 0xffff
 
 #define IMX290_EXPOSURE_MIN 1
@@ -110,7 +109,6 @@ struct imx290 {
 	struct regmap *regmap;
 	u8 nlanes;
 	u8 bpp;
-	u16 hmax_min;
 
 	const struct imx290_pixfmt *formats;
 
@@ -691,17 +689,6 @@ static int imx290_set_vmax(struct imx290 *imx290, u32 val)
 		dev_err(imx290->dev, "Unable to write vmax\n");
 
 	/*
-	 * Changing vblank changes the allowed range for exposure.
-	 * We don't supply the current exposure as default here as it
-	 * may lie outside the new range. We will reset it just below.
-	 */
-	__v4l2_ctrl_modify_range(imx290->exposure,
-				 IMX290_EXPOSURE_MIN,
-				 vmax - 2,
-				 IMX290_EXPOSURE_STEP,
-				 vmax - 2);
-
-	/*
 	 * Becuse of the way exposure works for this sensor, updating
 	 * vblank causes the effective exposure to change, so we must
 	 * set it back to the "new" correct value.
@@ -731,6 +718,21 @@ static int imx290_set_ctrl(struct v4l2_ctrl *ctrl)
 					     struct imx290, ctrls);
 	int ret = 0;
 	u8 val;
+
+	if (ctrl->id == V4L2_CID_VBLANK) {
+		u32 vmax = ctrl->val + imx290->current_mode->height;
+
+		/*
+		 * Changing vblank changes the allowed range for exposure.
+		 * We don't supply the current exposure as default here as it
+		 * may lie outside the new range. We will reset it just below.
+		 */
+		__v4l2_ctrl_modify_range(imx290->exposure,
+					 IMX290_EXPOSURE_MIN,
+					 vmax - 2,
+					 IMX290_EXPOSURE_STEP,
+					 vmax - 2);
+	}
 
 	/* V4L2 controls values will be applied only when power is already up */
 	if (!pm_runtime_get_if_in_use(imx290->dev))
@@ -912,29 +914,17 @@ static int imx290_set_fmt(struct v4l2_subdev *sd,
 			__v4l2_ctrl_s_ctrl_int64(imx290->pixel_rate,
 						 imx290_calc_pixel_rate(imx290));
 
-		if (imx290->hblank) {
+		if (imx290->hblank)
 			__v4l2_ctrl_modify_range(imx290->hblank,
-						 imx290->hmax_min - mode->width,
+						 mode->hmax - mode->width,
 						 IMX290_HMAX_MAX - mode->width,
 						 1, mode->hmax - mode->width);
-			__v4l2_ctrl_s_ctrl(imx290->hblank,
-					   mode->hmax - mode->width);
-		}
-		if (imx290->vblank) {
+		if (imx290->vblank)
 			__v4l2_ctrl_modify_range(imx290->vblank,
 						 mode->vmax - mode->height,
 						 IMX290_VMAX_MAX - mode->height,
 						 1,
 						 mode->vmax - mode->height);
-			__v4l2_ctrl_s_ctrl(imx290->vblank,
-					   mode->vmax - mode->height);
-		}
-		if (imx290->exposure)
-			__v4l2_ctrl_modify_range(imx290->exposure,
-						 IMX290_EXPOSURE_MIN,
-						 mode->vmax - 2,
-						 IMX290_EXPOSURE_STEP,
-						 mode->vmax - 2);
 	}
 
 	*format = fmt->format;
@@ -1306,7 +1296,6 @@ static int imx290_probe(struct i2c_client *client)
 		ret = -EINVAL;
 		goto free_err;
 	}
-	imx290->hmax_min = IMX290_HMAX_MIN;
 
 	dev_dbg(dev, "Using %u data lanes\n", imx290->nlanes);
 
@@ -1371,8 +1360,7 @@ static int imx290_probe(struct i2c_client *client)
 
 	/*
 	 * Initialize the frame format. In particular, imx290->current_mode
-	 * and imx290->bpp are set to defaults: imx290_calc_pixel_rate() call
-	 * below relies on these fields.
+	 * and imx290->bpp are set to defaults.
 	 */
 	imx290_entity_init_cfg(&imx290->sd, NULL);
 
@@ -1384,7 +1372,7 @@ static int imx290_probe(struct i2c_client *client)
 	mode = imx290->current_mode;
 	imx290->hblank = v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
 					   V4L2_CID_HBLANK,
-					   imx290->hmax_min - mode->width,
+					   mode->hmax - mode->width,
 					   IMX290_HMAX_MAX - mode->width, 1,
 					   mode->hmax - mode->width);
 

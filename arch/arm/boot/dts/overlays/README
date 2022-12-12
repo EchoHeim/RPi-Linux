@@ -190,6 +190,9 @@ Params:
                                 to negotiate. Legal values are 10, 100 and
                                 1000 (default 1000). Pi3B+ only.
 
+        hdmi                    Set to "off" to disable the HDMI interface
+                                (default "on")
+
         i2c_arm                 Set to "on" to enable the ARM's i2c interface
                                 (default "off")
 
@@ -217,6 +220,11 @@ Params:
         krnbt_baudrate          Set the baudrate of the PL011 UART when used
                                 with krnbt=on
 
+        pcie                    Set to "off" to disable the PCIe interface
+                                (default "on")
+                                (2711 only, but not applicable on CM4S)
+                                N.B. USB-A ports on 4B are subsequently disabled
+
         spi                     Set to "on" to enable the spi interfaces
                                 (default "off")
 
@@ -226,6 +234,10 @@ Params:
 
         random                  Set to "on" to enable the hardware random
                                 number generator (default "on")
+
+        sd                      Set to "off" to disable the SD card (or eMMC on
+                                non-lite SKU of CM4).
+                                (default "on")
 
         sd_overclock            Clock (in MHz) to use when the MMC framework
                                 requests 50MHz
@@ -668,10 +680,13 @@ Info:   Switches PWM sound output to GPIOs on the 40-pin header
 Load:   dtoverlay=audremap,<param>=<val>
 Params: swap_lr                 Reverse the channel allocation, which will also
                                 swap the audio jack outputs (default off)
-        enable_jack             Don't switch off the audio jack output
-                                (default off)
+        enable_jack             Don't switch off the audio jack output. Does
+                                nothing on BCM2711 (default off)
         pins_12_13              Select GPIOs 12 & 13 (default)
         pins_18_19              Select GPIOs 18 & 19
+        pins_40_41              Select GPIOs 40 & 41
+        pins_40_45              Select GPIOs 40 & 45 (don't use on BCM2711 - the
+                                pins are on different controllers)
 
 
 Name:   balena-fin
@@ -763,6 +778,12 @@ Params: int_pin                 GPIO pin for interrupt signal (default 23)
 Name:   chipdip-dac
 Info:   Configures Chip Dip audio cards.
 Load:   dtoverlay=chipdip-dac
+Params: <None>
+
+
+Name:   cirrus-wm5102
+Info:   Configures the Cirrus Logic Audio Card
+Load:   dtoverlay=cirrus-wm5102
 Params: <None>
 
 
@@ -1585,7 +1606,7 @@ Params: <None>
 
 
 Name:   hifiberry-digi-pro
-Info:   Configures the HifiBerry Digi+ Pro audio card
+Info:   Configures the HifiBerry Digi+ Pro and Digi2 Pro audio card
 Load:   dtoverlay=hifiberry-digi-pro
 Params: <None>
 
@@ -1790,6 +1811,8 @@ Params: abx80x                  Select one of the ABx80x family:
 
         rv3028                  Select the Micro Crystal RV3028 device
 
+        rv3032                  Select the Micro Crystal RV3032 device
+
         rv8803                  Select the Micro Crystal RV8803 device
 
         sd3078                  Select the ZXW Shenzhen whwave SD3078 device
@@ -1874,6 +1897,8 @@ Params: abx80x                  Select one of the ABx80x family:
 
         rv3028                  Select the Micro Crystal RV3028 device
 
+        rv3032                  Select the Micro Crystal RV3032 device
+
         rv8803                  Select the Micro Crystal RV8803 device
 
         sd3078                  Select the ZXW Shenzhen whwave SD3078 device
@@ -1915,6 +1940,9 @@ Params: addr                    Set the address for the BH1750, BME280, BME680,
                                 BMP280, CCS811, DS1621, HDC100X, LM75, SHT3x or
                                 TMP102
 
+        aht10                   Select the Aosong AHT10 temperature and humidity
+                                sensor
+
         bh1750                  Select the Rohm BH1750 ambient light sensor
                                 Valid addresses 0x23 or 0x5c, default 0x23
 
@@ -1945,6 +1973,15 @@ Params: addr                    Set the address for the BH1750, BME280, BME680,
         int_pin                 Set the GPIO to use for interrupts (max30102
                                 only)
 
+        jc42                    Select any of the many JEDEC JC42.4-compliant
+                                temperature sensors, including:
+                                  ADT7408, AT30TS00, CAT34TS02, CAT6095,
+                                  MAX6604, MCP9804, MCP9805, MCP9808,
+                                  MCP98242, MCP98243, MCP98244, MCP9843,
+                                  SE97, SE98, STTS424(E), STTS2002, STTS3000,
+                                  TSE2002, TSE2004, TS3000, and TS3001.
+                                The default address is 0x18.
+
         lm75                    Select the Maxim LM75 temperature sensor
                                 Valid addresses 0x48-0x4f, default 0x4f
 
@@ -1955,6 +1992,17 @@ Params: addr                    Set the address for the BH1750, BME280, BME680,
 
         max30102                Select the Maxim Integrated MAX30102 heart-rate
                                 and blood-oxygen sensor
+
+        mcp980x                 Select the Maxim MCP980x range of temperature
+                                sensors (i.e. MCP9800, MCP9801, MCP9802 and
+                                MCP9803). N.B. For MCP9804, MCP9805 and MCP9808,
+                                use the "jc42" option.
+                                Valid addresses are 0x18-0x1f (default 0x18)
+
+        no_timeout              Disable the SMBUS timeout. N.B. Only supported
+                                by some jc42 devices - using with an
+                                incompatible device can stop it from being
+                                activated.
 
         sht3x                   Select the Sensiron SHT3x temperature and
                                 humidity sensor. Valid addresses 0x44-0x45,
@@ -2072,6 +2120,12 @@ Params: pins_0_1                Use GPIOs 0 and 1
                                 "100000")
 
 
+Name:   i2s-dac
+Info:   Configures any passive I2S DAC soundcard.
+Load:   dtoverlay=i2s-dac
+Params: <None>
+
+
 Name:   i2s-gpio28-31
 Info:   move I2S function block to GPIO 28 to 31
 Load:   dtoverlay=i2s-gpio28-31
@@ -2159,6 +2213,9 @@ Params: rotation                Mounting rotation of the camera sensor (0 or
                                 configuring the sensor (default on)
         cam0                    Adopt the default configuration for CAM0 on a
                                 Compute Module (CSI0, i2c_vc, and cam0_reg).
+        clock-frequency         Sets the clock frequency to match that used on
+                                the board, which should be one of 54000000
+                                (the default), 37125000 or 74250000.
 
 
 Name:   imx327
@@ -3102,6 +3159,14 @@ Params: gpiopin                 Input GPIO (default "18")
                                 off)
         capture_clear           Generate clear events on the trailing edge
                                 (default off)
+        pull                    Desired pull-up/down state (off, down, up)
+                                Default is "off".
+
+
+Name:   proto-codec
+Info:   Configures the PROTO Audio Codec card
+Load:   dtoverlay=proto-codec
+Params: <None>
 
 
 Name:   pwm
@@ -3155,6 +3220,24 @@ Load:   dtoverlay=pwm-ir-tx,<param>=<val>
 Params: gpio_pin                Output GPIO (default 18)
 
         func                    Pin function (default 2 = Alt5)
+
+
+Name:   pwm1
+Info:   Configures one or two PWM channel on PWM1 (BCM2711 only)
+        N.B.:
+          1) The onboard analogue audio output uses both PWM channels.
+          2) So be careful mixing audio and PWM.
+        Note that even when only one pin is enabled, both channels are available
+        from the PWM driver, so be careful to use the correct one.
+Load:   dtoverlay=pwm1,<param>=<val>
+Params: clock                   PWM clock frequency (informational)
+        pins_40                 Enable channel 0 (PWM1_0) on GPIO 40
+        pins_41                 Enable channel 1 (PWM1_1) on GPIO 41
+        pins_40_41              Enable channels 0 (PWM1_0) and 1 (PW1_1) on
+                                GPIOs 40 and 41 (default)
+        pull_up                 Enable pull-ups on the PWM pins (default)
+        pull_down               Enable pull-downs on the PWM pins
+        pull_off                Disable pulls on the PWM pins
 
 
 Name:   qca7000
@@ -3244,49 +3327,88 @@ Params: <None>
 
 
 Name:   rpi-cirrus-wm5102
-Info:   Configures the Cirrus Logic Audio Card
-Load:   dtoverlay=rpi-cirrus-wm5102
+Info:   This overlay has been renamed to cirrus-wm5102
+Load:   <Deprecated>
+
+
+Name:   rpi-codeczero
+Info:   Configures the Raspberry Pi Codec Zero sound card
+Load:   dtoverlay=rpi-codeczero
 Params: <None>
 
 
 Name:   rpi-dac
-Info:   Configures the RPi DAC audio card
-Load:   dtoverlay=rpi-dac
-Params: <None>
+Info:   This overlay has been renaamed to i2s-dac.
+Load:   <Deprecated>
+
+
+Name:   rpi-dacplus
+Info:   Configures the Raspberry Pi DAC+ card
+Load:   dtoverlay=rpi-dacplus,<param>=<val>
+Params: 24db_digital_gain       Allow gain to be applied via the PCM512x codec
+                                digital volume control. Enable by adding
+                                "dtparam=24db_digital_gain" to config.txt
+                                before any "dtoverlay" lines.
+                                The default behaviour is that the digital
+                                volume control is limited to a maximum of
+                                0dB. ie. it can attenuate but not provide
+                                gain. For most users, this will be desired
+                                as it will prevent clipping. By appending
+                                the 24db_digital_gain parameter, the digital
+                                volume control will allow up to 24dB of
+                                gain. If this parameter is enabled, it is the
+                                responsibility of the user to ensure that
+                                the digital volume control is set to a value
+                                that does not result in clipping/distortion!
+
+
+Name:   rpi-dacpro
+Info:   Configures the Raspberry Pi DAC Pro sound card
+Load:   dtoverlay=rpi-dacpro,<param>=<val>
+Params: 24db_digital_gain       Allow gain to be applied via the PCM512x codec
+                                digital volume control. Enable by adding
+                                "dtparam=24db_digital_gain" to config.txt
+                                before any "dtoverlay" lines.
+                                The default behaviour is that the digital
+                                volume control is limited to a maximum of
+                                0dB. ie. it can attenuate but not provide
+                                gain. For most users, this will be desired
+                                as it will prevent clipping. By appending
+                                the 24db_digital_gain parameter, the digital
+                                volume control will allow up to 24dB of
+                                gain. If this parameter is enabled, it is the
+                                responsibility of the user to ensure that
+                                the digital volume control is set to a value
+                                that does not result in clipping/distortion!
+
+
+Name:   rpi-digiampplus
+Info:   Configures the Raspberry Pi DigiAMP+ sound card
+Load:   dtoverlay=rpi-digiampplus,<param>=<val>
+Params: 24db_digital_gain       Allow gain to be applied via the PCM512x codec
+                                digital volume control. Enable by adding
+                                "dtparam=24db_digital_gain" to config.txt
+                                before any "dtoverlay" lines.
+                                The default behaviour is that the digital
+                                volume control is limited to a maximum of
+                                0dB. ie. it can attenuate but not provide
+                                gain. For most users, this will be desired
+                                as it will prevent clipping. By appending
+                                the 24db_digital_gain parameter, the digital
+                                volume control will allow up to 24dB of
+                                gain. If this parameter is enabled, it is the
+                                responsibility of the user to ensure that
+                                the digital volume control is set to a value
+                                that does not result in clipping/distortion!
+        auto_mute_amp           If specified, unmute/mute the DigiAMP+ when
+                                starting/stopping audio playback (default "on").
+        unmute_amp              If specified, unmute the DigiAMP+ amp once when
+                                the DAC driver module loads (default "off").
 
 
 Name:   rpi-display
-Info:   RPi-Display - 2.8" Touch Display by Watterott
-        Linux has 2 drivers that support this display and this overlay supports
-        both.
-
-        Examples:
-          fbtft/fb_ili9341: dtoverlay=rpi-display
-          drm/mi0283qt: dtoverlay=rpi-display,drm,backlight-pwm,rotate=180
-
-        Some notable differences with the DRM driver compared to fbtft:
-        - The display is turned on when it's first used and not on driver load
-          as with fbtft. So if nothing uses the display it stays off.
-        - Can run with a higher SPI clock increasing framerate. This is possible
-          since the driver avoids messing up the controller configuration due to
-          transmission errors by running config commands at 10MHz and only pixel
-          data at full speed (occasional pixel glitch might occur).
-        - PWM backlight is supported.
-
-Load:   dtoverlay=rpi-display,<param>=<val>
-Params: speed                   Display SPI bus speed
-        rotate                  Display rotation {0,90,180,270}
-        fps                     Delay between frame updates (fbtft only)
-        debug                   Debug output level {0-7} (fbtft only)
-        xohms                   Touchpanel sensitivity (X-plate resistance)
-        swapxy                  Swap x and y axis
-        backlight               Change backlight GPIO pin {e.g. 12, 18}
-                                (fbtft only)
-        drm                     Use DRM/KMS driver mi0283qt instead of fbtft.
-                                Set the SPI clock to 70MHz.
-                                This has to be the first parameter.
-        backlight-pwm           Use pwm for backlight (drm only). NB: Disables
-                                audio headphone output as that also uses PWM.
+Info:   This overlay has been renamed to watterott-display
+Load:   <Deprecated>
 
 
 Name:   rpi-ft5406
@@ -3346,14 +3468,19 @@ Params: poe_fan_temp0           Temperature (in millicelcius) at which the fan
 
 
 Name:   rpi-proto
-Info:   Configures the RPi Proto audio card
-Load:   dtoverlay=rpi-proto
-Params: <None>
+Info:   This overlay has been renamaed to proto-codec.
+Load:   <Deprecated>
 
 
 Name:   rpi-sense
 Info:   Raspberry Pi Sense HAT
 Load:   dtoverlay=rpi-sense
+Params: <None>
+
+
+Name:   rpi-sense-v2
+Info:   Raspberry Pi Sense HAT v2
+Load:   dtoverlay=rpi-sense-v2
 Params: <None>
 
 
@@ -4335,6 +4462,40 @@ Params: int_pin                 GPIO used for INT (default 25)
         speed                   SPI bus speed (default 30000000)
 
         cs                      SPI bus Chip Select (default 0)
+
+
+Name:   watterott-display
+Info:   Watterott RPi-Display - 2.8" Touch Display
+        Linux has 2 drivers that support this display and this overlay supports
+        both.
+
+        Examples:
+          fbtft/fb_ili9341: dtoverlay=watterott-display
+          drm/mi0283qt: dtoverlay=watterott-display,drm,backlight-pwm,rotate=180
+
+        Some notable differences with the DRM driver compared to fbtft:
+        - The display is turned on when it's first used and not on driver load
+          as with fbtft. So if nothing uses the display it stays off.
+        - Can run with a higher SPI clock increasing framerate. This is possible
+          since the driver avoids messing up the controller configuration due to
+          transmission errors by running config commands at 10MHz and only pixel
+          data at full speed (occasional pixel glitch might occur).
+        - PWM backlight is supported.
+
+Load:   dtoverlay=watterott-display,<param>=<val>
+Params: speed                   Display SPI bus speed
+        rotate                  Display rotation {0,90,180,270}
+        fps                     Delay between frame updates (fbtft only)
+        debug                   Debug output level {0-7} (fbtft only)
+        xohms                   Touchpanel sensitivity (X-plate resistance)
+        swapxy                  Swap x and y axis
+        backlight               Change backlight GPIO pin {e.g. 12, 18}
+                                (fbtft only)
+        drm                     Use DRM/KMS driver mi0283qt instead of fbtft.
+                                Set the SPI clock to 70MHz.
+                                This has to be the first parameter.
+        backlight-pwm           Use pwm for backlight (drm only). NB: Disables
+                                audio headphone output as that also uses PWM.
 
 
 Name:   waveshare-can-fd-hat-mode-a

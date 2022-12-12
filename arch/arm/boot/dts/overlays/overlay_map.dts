@@ -77,6 +77,10 @@
 		renamed = "miniuart-bt";
 	};
 
+	pwm1 {
+		bcm2711;
+	};
+
 	ramoops {
 		bcm2835;
 		bcm2711 = "ramoops-pi4";
@@ -84,6 +88,22 @@
 
 	ramoops-pi4 {
 		bcm2711;
+	};
+
+	rpi-cirrus-wm5102 {
+		renamed = "cirrus-wm5102";
+	};
+
+	rpi-dac {
+		renamed = "i2s-dac";
+	};
+
+	rpi-display {
+		renamed = "watterott-display";
+	};
+
+	rpi-proto {
+		renamed = "proto-codec";
 	};
 
 	rpivid-v4l2 {
